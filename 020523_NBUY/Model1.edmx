@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="NorthwindModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Kategoriler">
+          <Key>
+            <PropertyRef Name="KategoriID" />
+          </Key>
+          <Property Name="KategoriID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KategoriAdi" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="Tanimi" Type="ntext" />
+          <Property Name="Resim" Type="image" />
+        </EntityType>
+        <EntityType Name="Urunler">
+          <Key>
+            <PropertyRef Name="UrunID" />
+          </Key>
+          <Property Name="UrunID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UrunAdi" Type="nvarchar" MaxLength="40" Nullable="false" />
+          <Property Name="TedarikciID" Type="int" />
+          <Property Name="KategoriID" Type="int" />
+          <Property Name="BirimdekiMiktar" Type="nvarchar" MaxLength="20" />
+          <Property Name="BirimFiyati" Type="money" />
+          <Property Name="HedefStokDuzeyi" Type="smallint" />
+          <Property Name="YeniSatis" Type="smallint" />
+          <Property Name="EnAzYenidenSatisMikatari" Type="smallint" />
+          <Property Name="Sonlandi" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Urunler_Kategoriler">
+          <End Role="Kategoriler" Type="Self.Kategoriler" Multiplicity="0..1" />
+          <End Role="Urunler" Type="Self.Urunler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategoriler">
+              <PropertyRef Name="KategoriID" />
+            </Principal>
+            <Dependent Role="Urunler">
+              <PropertyRef Name="KategoriID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NorthwindModelStoreContainer">
+          <EntitySet Name="Kategoriler" EntityType="Self.Kategoriler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Urunler" EntityType="Self.Urunler" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Urunler_Kategoriler" Association="Self.FK_Urunler_Kategoriler">
+            <End Role="Kategoriler" EntitySet="Kategoriler" />
+            <End Role="Urunler" EntitySet="Urunler" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NorthwindModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Urunler">
+          <Key>
+            <PropertyRef Name="UrunID" />
+          </Key>
+          <Property Name="UrunID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UrunAdi" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TedarikciID" Type="Int32" />
+          <Property Name="KategoriID" Type="Int32" />
+          <Property Name="BirimdekiMiktar" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="BirimFiyati" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="HedefStokDuzeyi" Type="Int16" />
+          <Property Name="YeniSatis" Type="Int16" />
+          <Property Name="EnAzYenidenSatisMikatari" Type="Int16" />
+          <Property Name="Sonlandi" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Kategoriler" Relationship="NorthwindModel.FK_Urunler_Kategoriler" FromRole="Urunler" ToRole="Kategoriler" />
+        </EntityType>
+        <EntityContainer Name="NorthwindEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Urunler" EntityType="Self.Urunler" />
+          <EntitySet Name="Kategoriler" EntityType="NorthwindModel.Kategoriler" />
+          <AssociationSet Name="FK_Urunler_Kategoriler" Association="NorthwindModel.FK_Urunler_Kategoriler">
+            <End Role="Kategoriler" EntitySet="Kategoriler" />
+            <End Role="Urunler" EntitySet="Urunler" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Kategoriler">
+          <Key>
+            <PropertyRef Name="KategoriID" />
+          </Key>
+          <Property Name="KategoriID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KategoriAdi" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Tanimi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Resim" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Urunler" Relationship="NorthwindModel.FK_Urunler_Kategoriler" FromRole="Kategoriler" ToRole="Urunler" />
+        </EntityType>
+        <Association Name="FK_Urunler_Kategoriler">
+          <End Type="NorthwindModel.Kategoriler" Role="Kategoriler" Multiplicity="0..1" />
+          <End Type="NorthwindModel.Urunler" Role="Urunler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategoriler">
+              <PropertyRef Name="KategoriID" />
+            </Principal>
+            <Dependent Role="Urunler">
+              <PropertyRef Name="KategoriID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="NorthwindModelStoreContainer" CdmEntityContainer="NorthwindEntities1">
+          <EntitySetMapping Name="Urunler">
+            <EntityTypeMapping TypeName="NorthwindModel.Urunler">
+              <MappingFragment StoreEntitySet="Urunler">
+                <ScalarProperty Name="UrunID" ColumnName="UrunID" />
+                <ScalarProperty Name="UrunAdi" ColumnName="UrunAdi" />
+                <ScalarProperty Name="TedarikciID" ColumnName="TedarikciID" />
+                <ScalarProperty Name="KategoriID" ColumnName="KategoriID" />
+                <ScalarProperty Name="BirimdekiMiktar" ColumnName="BirimdekiMiktar" />
+                <ScalarProperty Name="BirimFiyati" ColumnName="BirimFiyati" />
+                <ScalarProperty Name="HedefStokDuzeyi" ColumnName="HedefStokDuzeyi" />
+                <ScalarProperty Name="YeniSatis" ColumnName="YeniSatis" />
+                <ScalarProperty Name="EnAzYenidenSatisMikatari" ColumnName="EnAzYenidenSatisMikatari" />
+                <ScalarProperty Name="Sonlandi" ColumnName="Sonlandi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kategoriler">
+            <EntityTypeMapping TypeName="NorthwindModel.Kategoriler">
+              <MappingFragment StoreEntitySet="Kategoriler">
+                <ScalarProperty Name="Resim" ColumnName="Resim" />
+                <ScalarProperty Name="Tanimi" ColumnName="Tanimi" />
+                <ScalarProperty Name="KategoriAdi" ColumnName="KategoriAdi" />
+                <ScalarProperty Name="KategoriID" ColumnName="KategoriID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
